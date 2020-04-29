@@ -207,7 +207,7 @@ async function GetNewRepoName() {
 }
 
 async function GetBranches(path: string) {
-    const folderPath = await CreateTempFolder();
+    const folderPath = CreateTempFolder();
     const BRANCH_PREFIX = 'NVRTEMPLATE';
 
     ExecGitCommand(['init'], folderPath);
@@ -251,13 +251,16 @@ async function SelectBranch(path: string) {
     return result;
 }
 
-async function CreateTempFolder() {
+function CreateTempFolder() {
     const id = new UUID(4).format();
     const directory = path.join(os.tmpdir(), `Navertica\\NaverticAL\\${id}`);
     
-    await fse.mkdirs(directory).then(() => {
-        console.log(`Created directory: ${directory}`);
-    });
+    // await fse.mkdirs(directory).then(() => {
+    //     console.log(`Created directory: ${directory}`);
+    // });
+
+    fse.mkdirSync(directory);
+    console.log(`Created directory: ${directory}`);
 
     return directory;
 }
